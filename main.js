@@ -2,7 +2,17 @@
 
 // Header com sombra ao rolar
 const header = document.querySelector("[data-header]");
-const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 8);
+const heroMedia = document.querySelector(".hero-media");
+const whatsFloat = document.querySelector(".whats-float");
+const mobile = window.matchMedia("(max-width: 860px)");
+const onScroll = () => {
+  header.classList.toggle("is-scrolled", window.scrollY > 8);
+  // No mobile, o botão flutuante só aparece depois da primeira dobra
+  const inHero = heroMedia.getBoundingClientRect().bottom > window.innerHeight * 0.6;
+  whatsFloat.classList.toggle("is-hidden", mobile.matches && inHero);
+};
+mobile.addEventListener("change", onScroll);
+window.addEventListener("resize", onScroll, { passive: true });
 onScroll();
 window.addEventListener("scroll", onScroll, { passive: true });
 

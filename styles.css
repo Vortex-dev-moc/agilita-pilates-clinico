@@ -314,11 +314,8 @@ p { margin: 0 0 1em; }
   .nav a:not(.btn) { padding: 14px 4px; border-bottom: 1px solid var(--mist); }
   .nav .btn { margin-top: 16px; }
 
-  .hero { min-height: 0; }
   .hero-grid, .about-grid, .tips-grid, .contact-grid { grid-template-columns: 1fr; }
-  .hero-media { max-width: 440px; justify-self: center; width: 100%; }
   .about-media img { max-height: 70svh; }
-  .hero-media::before { inset: 10% -6% -6% 10%; }
 
   .gallery { grid-template-columns: 1fr 1fr; grid-template-rows: 220px 220px 220px; }
   .g-a { grid-column: span 2; grid-row: span 1; }
@@ -336,4 +333,59 @@ p { margin: 0 0 1em; }
   .hero-facts strong { font-size: 1.05rem; }
   .hero-facts span { font-size: 0.75rem; }
   .tips-list li { grid-template-columns: 48px 1fr; }
+}
+
+/* ---------- Hero mobile: texto sobre a foto ----------
+   A foto ocupa a primeira dobra. Título no topo (sobre o teto claro do
+   estúdio, com um leve esmaecimento creme) e botões na base.
+   Texto de apoio e destaques ficam logo abaixo da foto. */
+@media (max-width: 860px) {
+  .hero { min-height: 0; padding: 4px 0 56px; }
+  .hero-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr auto auto auto;
+    gap: 0;
+  }
+  .hero-copy { display: contents; }
+
+  .hero-media {
+    grid-row: 1 / 5; grid-column: 1;
+    max-width: none; width: 100%; justify-self: stretch;
+    border-radius: 28px; overflow: hidden;
+  }
+  .hero-media::before { display: none; }
+  .hero-media::after {
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 58%;
+    background: linear-gradient(to bottom,
+      rgba(249, 247, 243, 0.94) 0%,
+      rgba(249, 247, 243, 0.8) 50%,
+      rgba(249, 247, 243, 0) 100%);
+    pointer-events: none;
+  }
+  .hero-media img {
+    height: calc(100svh - 84px - 20px);
+    min-height: 520px; max-height: 860px;
+    aspect-ratio: auto; border-radius: 0; box-shadow: none;
+    object-position: center top;
+  }
+
+  .hero .eyebrow,
+  .hero h1,
+  .hero-actions { grid-column: 1; position: relative; z-index: 1; padding-inline: 22px; }
+  .hero .eyebrow { grid-row: 1; margin: 26px 0 0.8em; color: var(--sage-deep); letter-spacing: 0.18em; font-size: 0.72rem; }
+  .hero h1 { grid-row: 2; margin: 0; max-width: 13em; }
+  .hero h1 em { color: var(--sage-deep); opacity: 0.75; }
+  .hero-actions { grid-row: 4; margin: 0; padding-bottom: 20px; gap: 8px; flex-wrap: nowrap; padding-inline: 16px; }
+  .hero-actions .btn { flex: 1 1 0; min-width: 0; white-space: nowrap; padding: 0.95em 0.6em; font-size: clamp(0.76rem, 3.6vw, 0.9rem); }
+
+  /* Na primeira dobra os botões já levam ao WhatsApp: o flutuante entra depois */
+  .whats-float { transition: transform 0.3s var(--ease), opacity 0.3s, background 0.3s; }
+  .whats-float.is-hidden { opacity: 0; transform: translateY(16px) scale(0.9); pointer-events: none; }
+  .hero-actions .btn-ghost {
+    background: rgba(249, 247, 243, 0.92); border-color: transparent; color: var(--olive);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  }
+
+  .hero .lead { grid-row: 5; margin: 28px 0 0; }
+  .hero-facts { grid-row: 6; margin-top: 24px; }
 }

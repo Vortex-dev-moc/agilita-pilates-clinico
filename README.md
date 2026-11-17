@@ -46,12 +46,14 @@ Acesse http://localhost:5173.
 2. Sobre a Agilità
 3. Serviços — Avaliação inicial, Pilates clínico (2x/3x por semana), Fisioterapia pélvica, Liberação miofascial
 4. Equipe — Marcella Maia, Brenda Silva, Lorena Sena, Stephanie Aquino
-5. Nosso espaço (galeria)
-6. Orientações para a avaliação
-7. Contato — WhatsApp, Instagram, endereço e mapa
+5. Avaliações — nota e depoimentos do Google
+6. Nosso espaço (galeria)
+7. Orientações para a avaliação
+8. Contato — WhatsApp, Instagram, endereço e mapa do Google
 
 ## Contato da clínica
 
-- WhatsApp: (38) 99813-8268
+- WhatsApp: (51) 99566-9305
 - Instagram: [@pilatesclinicoagilita](https://www.instagram.com/pilatesclinicoagilita/)
-- Rua Dr. Henrique Chaves, nº 448 — Augusta Mota, 2º piso (Clínica Reabilitar)
+- Av. João Wallig, 160 — Passo d'Areia, Porto Alegre/RS, 91340-001
+- Google Maps: https://maps.app.goo.gl/m3jhURKYQRojzjeS6

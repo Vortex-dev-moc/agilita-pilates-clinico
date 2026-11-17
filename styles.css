@@ -324,7 +324,9 @@ p { margin: 0 0 1em; }
 
 @media (max-width: 560px) {
   .brand .logo { width: 110px; }
-  .service-grid { grid-template-columns: 1fr; }
+  .service-grid { grid-template-columns: 1fr; gap: 16px; }
+  /* Card em coluna única: foto mais alta e enquadrada no rosto (--focus no HTML) */
+  .service img { aspect-ratio: 4 / 4.6; max-height: 64svh; object-position: center var(--focus, 35%); }
   .team-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
   .member figcaption { left: 8px; right: 8px; bottom: 8px; padding: 0.55rem 0.7rem; }
   .member figcaption strong { font-size: 0.95rem; }

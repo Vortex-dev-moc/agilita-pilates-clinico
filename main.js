@@ -10,7 +10,17 @@ const onScroll = () => {
   // No mobile, o botão flutuante só aparece depois da primeira dobra
   const inHero = heroMedia.getBoundingClientRect().bottom > window.innerHeight * 0.6;
   whatsFloat.classList.toggle("is-hidden", mobile.matches && inHero);
+  updateFloatTheme();
 };
+
+// Botão do WhatsApp troca de cor conforme o fundo da seção que está atrás dele
+function updateFloatTheme() {
+  const r = whatsFloat.getBoundingClientRect();
+  const behind = document
+    .elementsFromPoint(r.left + r.width / 2, r.top + r.height / 2)
+    .find((el) => !whatsFloat.contains(el));
+  whatsFloat.classList.toggle("on-dark", Boolean(behind && behind.closest(".team, .contact, .site-footer") && !behind.closest(".map-frame")));
+}
 mobile.addEventListener("change", onScroll);
 window.addEventListener("resize", onScroll, { passive: true });
 onScroll();

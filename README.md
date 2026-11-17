@@ -53,7 +53,7 @@ Acesse http://localhost:5173.
 
 ## Contato da clínica
 
-- WhatsApp: (51) 99566-9305
+- WhatsApp: (38) 99813-8268
 - Instagram: [@pilatesclinicoagilita](https://www.instagram.com/pilatesclinicoagilita/)
-- Av. João Wallig, 160 — Passo d'Areia, Porto Alegre/RS, 91340-001
-- Google Maps: https://maps.app.goo.gl/m3jhURKYQRojzjeS6
+- R. Dr. Henrique Chaves, 448 — Augusta Mota, 2º piso, Montes Claros/MG, 39403-440
+- Google Maps: https://maps.app.goo.gl/upCCvacds6RNLrWr9

@@ -214,17 +214,13 @@ p { margin: 0 0 1em; }
 .team .eyebrow { opacity: 0.8; }
 .team .section-head p:not(.eyebrow) { color: rgba(255, 255, 255, 0.85); }
 .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-.member { margin: 0; position: relative; border-radius: var(--radius); overflow: hidden; }
-.member img { width: 100%; aspect-ratio: 3 / 4; max-height: 62svh; object-fit: cover; object-position: top; transition: transform 0.8s var(--ease); }
-.member:hover img { transform: scale(1.04); }
-.member figcaption {
-  position: absolute; left: 12px; right: 12px; bottom: 12px;
-  background: rgba(249, 247, 243, 0.92); backdrop-filter: blur(6px);
-  border-radius: 16px; padding: 0.75rem 1rem; color: var(--olive);
-  display: flex; flex-direction: column; line-height: 1.3;
-}
-.member figcaption strong { font-family: var(--font-display); font-weight: 400; font-size: 1.1rem; }
-.member figcaption span { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sage); }
+.member { margin: 0; }
+.member-photo { border-radius: var(--radius); overflow: hidden; background: var(--sage-deep); }
+.member-photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center top; transition: transform 0.8s var(--ease); }
+.member:hover .member-photo img { transform: scale(1.03); }
+.member figcaption { padding: 1rem 0.25rem 0; display: flex; flex-direction: column; gap: 0.15rem; }
+.member-name { font-family: var(--font-display); font-size: 1.3rem; line-height: 1.25; color: var(--white); }
+.member-role { font-size: 0.9rem; color: rgba(255, 255, 255, 0.72); }
 
 /* ---------- Avaliações ---------- */
 .reviews { background: var(--cream); }
@@ -247,7 +243,8 @@ p { margin: 0 0 1em; }
 .rating-meta { display: flex; flex-direction: column; font-size: 0.85rem; color: var(--text-soft); line-height: 1.4; }
 .review-stars { color: #c9a24a; letter-spacing: 0.12em; font-size: 0.95rem; }
 
-.review-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 20px; align-items: start; }
+.review-grid { columns: 3; column-gap: 20px; }
+.review-grid .review { break-inside: avoid; margin-bottom: 20px; }
 .review {
   margin: 0; background: var(--white); border-radius: var(--radius); padding: 1.8rem 1.6rem 1.5rem;
   display: flex; flex-direction: column; gap: 1rem; position: relative;
@@ -285,12 +282,35 @@ p { margin: 0 0 1em; }
 .tips-list span { font-family: var(--font-display); font-size: 1.6rem; color: var(--moss); line-height: 1.2; }
 .tips-list p { margin: 0; font-size: 1.05rem; }
 
+/* ---------- Perguntas frequentes ---------- */
+.faq { background: var(--cream); }
+.faq-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(32px, 6vw, 80px); align-items: start; }
+.faq-grid header p:not(.eyebrow) { color: var(--text-soft); }
+.faq-grid header a { color: var(--sage-deep); }
+.faq-list { border-top: 1px solid var(--mist); }
+.faq-item { border-bottom: 1px solid var(--mist); }
+.faq-item summary {
+  list-style: none; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 1.2rem 0;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary h3 { margin: 0; font-size: 1.1rem; line-height: 1.4; }
+.faq-item summary::after {
+  content: ""; flex: none; width: 28px; height: 28px; border-radius: 50%;
+  background: var(--leaf) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23575b47' stroke-width='2' stroke-linecap='round' d='M12 6v12M6 12h12'/%3E%3C/svg%3E") center / 14px no-repeat;
+  transition: transform 0.3s var(--ease);
+}
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item p { margin: 0 0 1.3rem; color: var(--text-soft); max-width: 46em; }
+
 /* ---------- Contato ---------- */
 .contact { background: var(--sage-deep); color: var(--white); }
 .contact h2, .contact .eyebrow { color: var(--white); }
 .contact .eyebrow { color: var(--leaf); }
 .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 80px); align-items: center; }
 .contact-copy > p { color: rgba(255,255,255,.85); font-size: 1.05rem; }
+.contact-logo { width: clamp(150px, 16vw, 200px); height: auto; margin-bottom: clamp(24px, 4vw, 36px); }
 .contact-list { list-style: none; padding: 0; margin: 2.2rem 0 0; display: grid; gap: 1rem; }
 .contact-list li { display: flex; gap: 0.9rem; align-items: flex-start; font-size: 0.95rem; color: rgba(255,255,255,.9); }
 .contact-list svg { flex: none; width: 22px; height: 22px; color: var(--leaf); margin-top: 1px; }
@@ -315,16 +335,53 @@ p { margin: 0 0 1em; }
 .site-footer .small { font-size: 0.78rem; opacity: 0.75; }
 
 /* ---------- WhatsApp flutuante ---------- */
+/* Dinâmico: muda de cor conforme o fundo da seção atrás dele (main.js
+   adiciona .on-dark) e pulsa em anéis com as cores da paleta. */
 .whats-float {
+  --wf-bg: var(--sage-deep);
+  --wf-fg: var(--white);
+  --wf-hover: var(--olive);
+  --wf-ring-a: var(--moss);
+  --wf-ring-b: var(--leaf);
   position: fixed; right: 20px; bottom: 20px; z-index: 60;
   width: 58px; height: 58px; border-radius: 50%;
   display: grid; place-items: center;
-  background: var(--sage-deep); color: var(--white);
+  background: var(--wf-bg); color: var(--wf-fg);
   box-shadow: 0 12px 30px -10px rgba(54,60,31,.6);
-  transition: transform 0.3s var(--ease), background 0.3s;
+  transition: transform 0.3s var(--ease), opacity 0.3s, background 0.5s, color 0.5s, box-shadow 0.5s;
 }
-.whats-float:hover { transform: scale(1.08); background: var(--olive); }
-.whats-float svg { width: 28px; height: 28px; }
+.whats-float.on-dark {
+  --wf-bg: var(--leaf);
+  --wf-fg: var(--olive);
+  --wf-hover: var(--cream);
+  --wf-ring-a: var(--leaf);
+  --wf-ring-b: var(--cream);
+  box-shadow: 0 12px 30px -10px rgba(0,0,0,.55);
+}
+.whats-float::before,
+.whats-float::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  border: 2px solid var(--wf-ring-a);
+  animation: wf-pulse 2.8s var(--ease) infinite;
+  pointer-events: none;
+}
+.whats-float::after { border-color: var(--wf-ring-b); animation-delay: 1.4s; }
+.whats-float:hover { transform: scale(1.08); background: var(--wf-hover); }
+.whats-float:hover::before,
+.whats-float:hover::after { animation-play-state: paused; opacity: 0; }
+.whats-float svg { width: 28px; height: 28px; position: relative; animation: wf-nudge 5.6s ease-in-out infinite; }
+
+@keyframes wf-pulse {
+  0% { transform: scale(1); opacity: 0.85; }
+  100% { transform: scale(1.75); opacity: 0; }
+}
+/* Pequeno "balanço" do ícone a cada ciclo, para chamar o olhar sem incomodar */
+@keyframes wf-nudge {
+  0%, 86%, 100% { transform: rotate(0); }
+  89% { transform: rotate(-14deg); }
+  92% { transform: rotate(12deg); }
+  95% { transform: rotate(-6deg); }
+}
 
 /* ---------- Animações ---------- */
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
@@ -335,13 +392,13 @@ p { margin: 0 0 1em; }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   *, *::before, *::after { transition-duration: 0.01ms !important; }
+  .whats-float::before, .whats-float::after, .whats-float svg { animation: none; }
 }
 
 /* ---------- Responsivo ---------- */
 @media (max-width: 1024px) {
   .service-grid, .team-grid { grid-template-columns: repeat(2, 1fr); }
-  .review-grid { grid-template-columns: 1fr 1fr; }
-  .review:first-child { grid-column: span 2; }
+  .review-grid { columns: 2; }
 }
 
 @media (max-width: 860px) {
@@ -358,7 +415,7 @@ p { margin: 0 0 1em; }
   .nav a:not(.btn) { padding: 14px 4px; border-bottom: 1px solid var(--mist); }
   .nav .btn { margin-top: 16px; }
 
-  .hero-grid, .about-grid, .tips-grid, .contact-grid { grid-template-columns: 1fr; }
+  .hero-grid, .about-grid, .tips-grid, .contact-grid, .faq-grid { grid-template-columns: 1fr; }
   .about-media img { max-height: 70svh; }
 
   .gallery { grid-template-columns: 1fr 1fr; grid-template-rows: 220px 220px 220px; }
@@ -369,16 +426,16 @@ p { margin: 0 0 1em; }
 @media (max-width: 560px) {
   .brand .logo { width: 110px; }
   .service-grid { grid-template-columns: 1fr; gap: 16px; }
-  .review-grid { grid-template-columns: 1fr; }
-  .review:first-child { grid-column: auto; }
+  .review-grid { columns: 1; }
   .rating { width: 100%; }
   .map-frame { aspect-ratio: 1 / 1; }
   /* Card em coluna única: foto mais alta e enquadrada no rosto (--focus no HTML) */
   .service img { aspect-ratio: 4 / 4.6; max-height: 64svh; object-position: center var(--focus, 35%); }
   .team-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-  .member figcaption { left: 8px; right: 8px; bottom: 8px; padding: 0.55rem 0.7rem; }
-  .member figcaption strong { font-size: 0.95rem; }
-  .member figcaption span { font-size: 0.62rem; letter-spacing: 0.12em; }
+  .team-grid { row-gap: 28px; }
+  .member figcaption { padding-top: 0.7rem; }
+  .member-name { font-size: 1.05rem; }
+  .member-role { font-size: 0.8rem; }
   .hero-facts { grid-template-columns: 1fr 1fr 1fr; gap: 0.6rem; }
   .hero-facts strong { font-size: 1.05rem; }
   .hero-facts span { font-size: 0.75rem; }
@@ -426,15 +483,12 @@ p { margin: 0 0 1em; }
   .hero h1 { grid-row: 2; margin: 0; max-width: 13em; }
   .hero h1 em { color: var(--sage-deep); opacity: 0.75; }
   .hero-actions { grid-row: 4; margin: 0; padding-bottom: 20px; gap: 8px; flex-wrap: nowrap; padding-inline: 16px; }
-  .hero-actions .btn { flex: 1 1 0; min-width: 0; white-space: nowrap; padding: 0.95em 0.6em; font-size: clamp(0.76rem, 3.6vw, 0.9rem); }
+  /* Mobile: um único CTA, largo, na base da foto */
+  .hero-actions .btn { flex: 1 1 auto; padding: 1.05em 1.4em; font-size: 0.95rem; }
+  .hero-actions .btn-ghost { display: none; }
 
-  /* Na primeira dobra os botões já levam ao WhatsApp: o flutuante entra depois */
-  .whats-float { transition: transform 0.3s var(--ease), opacity 0.3s, background 0.3s; }
+  /* Na primeira dobra o CTA já leva ao WhatsApp: o flutuante entra depois */
   .whats-float.is-hidden { opacity: 0; transform: translateY(16px) scale(0.9); pointer-events: none; }
-  .hero-actions .btn-ghost {
-    background: rgba(249, 247, 243, 0.92); border-color: transparent; color: var(--olive);
-    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-  }
 
   .hero .lead { grid-row: 5; margin: 28px 0 0; }
   .hero-facts { grid-row: 6; margin-top: 24px; }
